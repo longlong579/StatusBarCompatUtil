@@ -40,7 +40,9 @@ allprojects {
   *3：StatusBarCompat.translucentStatusBar(this,true)//沉浸式状态栏 状态栏会沉浸到顶部 true:5.0以上全透明 false：半透明
   *4： StatusBarCompat.setTranslucentForImageView(this,true,0,toorBar)//指定要偏移的View 偏移高度为状态栏高度
   *5：在同一个界面中切换不同状态时 注意：（如果用了*4的偏移 则勿忘还原）
-  
     StatusBarCompat.clearOffsetMarginView(this,toorBar)//如果用了setTranslucentForImageView，在同一界面中切换不同状态时勿忘还原margain
     StatusBarCompat.translucentStatusBar(this,true)
+    
+    *二：Fragment中使用
+    添加了StatusView 作为状态栏的偏移替代 见代码
 
