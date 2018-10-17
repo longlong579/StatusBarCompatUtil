@@ -5,6 +5,12 @@
 ## 截图 
 <image src="./1.gif" width="270"> 
 	
+* 一：状态栏设置颜色导航栏
+* 二：状态栏和导航栏用图片作为背景。
+* 三：内容侵入状态栏，比如产品详情页。
+* 四：状态栏底色白色，字体深色（大概是灰黑色）。
+* 五：和DrawerLayout结合使用。
+* 六：和Fragment结合使用。
 	
 #依赖
 Step 1. Add the JitPack repository to your build file
@@ -26,5 +32,5 @@ allprojects {
 	}
 	```
   
-  
+  ##注意：设置黑色/白色字体的代码放后面  具体用法看代码
 
