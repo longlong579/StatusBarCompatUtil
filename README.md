@@ -24,3 +24,4 @@ allprojects {
 	}
 	```
   
+![image](https://github.com/longlong579/StatusBarCompatUtil/blob/master/1.gif)
