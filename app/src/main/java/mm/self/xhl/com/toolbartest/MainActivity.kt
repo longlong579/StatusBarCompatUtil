@@ -1,17 +1,13 @@
 package mm.self.xhl.com.toolbartest
 
-import android.annotation.TargetApi
-import android.app.Activity
+import android.content.Intent
 import android.os.Build
-import android.os.Build.VERSION_CODES.LOLLIPOP
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.view.ViewCompat
-import android.view.View.SYSTEM_UI_FLAG_VISIBLE
-import android.view.ViewGroup
-import android.view.Window
+import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
+import com.xhl.statusbarcompatutil.StatusBarCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import mm.self.xhl.com.toolbartest.fragment.FragmentActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,19 +16,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toorBar)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            val window  = getWindow()
-//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//        }
-        StatuBarUtil.setStatusBarColor(this, resources.getColor(R.color.colorAccent))
+
 
         txt.setOnClickListener {
-            StatuBarUtil.translucentStatusBar(this,true)
+
+            StatusBarCompat.clearOffsetMarginView(this,toorBar)
+            StatusBarCompat.translucentStatusBar(this,true)
+            StatusBarCompat.setStatusBarDarkFont(this,true)//黑色字体  注意放后面
         }
         txt2.setOnClickListener {
-            StatuBarUtil.setStatusBarColor(this,resources.getColor(R.color.colorAccent))
+            StatusBarCompat.setStatusBarColor(this,resources.getColor(R.color.colorAccent))
+            StatusBarCompat.clearOffsetMarginView(this,toorBar)
+            StatusBarCompat.setStatusBarDarkFont(this,false)//白色字体
+        }
+        txt3.setOnClickListener {
+            StatusBarCompat.setStatusBarColor(this,resources.getColor(R.color.colorAccent))
+            StatusBarCompat.setTranslucentForImageView(this,true,0,toorBar)
+            StatusBarCompat.setStatusBarDarkFont(this,true)//黑色字体
+        }
+
+        txt4.setOnClickListener {
+            startActivity(Intent(this,FragmentActivity::class.java))
+        }
+        txt5.setOnClickListener {
+            startActivity(Intent(this,DrawerActivity::class.java))
         }
     }
-
 
 }

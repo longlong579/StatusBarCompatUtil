@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!--下列两行控制使得应用窗口透明，用于展示一些差异-->
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+
+        <!--&lt;!&ndash;设置导航栏/状态栏窗口color为透明&ndash;&gt;-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+       <!--<item name="android:windowTranslucentNavigation">true</item>-->
+    </style>
+</resources>

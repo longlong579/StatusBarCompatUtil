@@ -3,7 +3,7 @@ def config = rootProject.ext.configs
 def lib = rootProject.ext.libs
 android {
     compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    buildToolsVersion '27.0.3'
 
 
 
@@ -27,9 +27,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:appcompat-v7:${lib.supportVersion}"
     compile "com.android.support:design:${lib.supportVersion}"
-
 }

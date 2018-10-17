@@ -3,7 +3,6 @@ package com.xhl.statusbarcompatutil;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
@@ -18,24 +17,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import static com.xhl.statusbarcompatutil.StatusBarCompat.getStatusBarHeight;
+
+
 /**
  * After Lollipop use system method.
  * Created by qiu on 8/27/16.
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StatusBarCompatLollipop {
-
-    /**
-     * return statusBar's Height in pixels
-     */
-    private static int getStatusBarHeight(Context context) {
-        int result = 0;
-        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resId > 0) {
-            result = context.getResources().getDimensionPixelOffset(resId);
-        }
-        return result;
-    }
 
     /**
      * set StatusBarColor
@@ -46,17 +36,18 @@ class StatusBarCompatLollipop {
      */
     static void setStatusBarColor(Activity activity, int statusColor) {
         Window window = activity.getWindow();
-        //取消状态栏透明
+        //取消状态栏透明,防止半透明
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //添加Flag把状态栏设为可绘制模式
+        //添加Flag把状态栏设为可绘制模式 需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(statusColor);
-        //设置系统状态栏处于可见状态
+
+        //设置系统状态栏处于可见状态 显示状态栏，Activity不全屏显示(恢复到有状态的正常情况)
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
-        //让view不根据系统窗口来调整自己的布局
-        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
-        View mChildView = mContentView.getChildAt(0);
+        //让view不根据系统窗口来调整自己的布局 只针对Activity
+        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);//Activity的内容布局 ContentFramLayout
+        View mChildView = mContentView.getChildAt(0);//Activity加载的布局文件 xml
         if (mChildView != null) {
             ViewCompat.setFitsSystemWindows(mChildView, false);
             ViewCompat.requestApplyInsets(mChildView);
@@ -172,7 +163,7 @@ class StatusBarCompatLollipop {
     /**
      * use ValueAnimator to change statusBarColor when using collapsingToolbarLayout
      */
-    static void startColorAnimation(int startColor, int endColor, long duration, final Window window) {
+    private static void startColorAnimation(int startColor, int endColor, long duration, final Window window) {
         if (sAnimator != null) {
             sAnimator.cancel();
         }

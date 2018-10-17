@@ -2,7 +2,6 @@ package com.xhl.statusbarcompatutil;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,6 +15,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import static com.xhl.statusbarcompatutil.StatusBarCompat.TAG_FAKE_STATUS_BAR_VIEW;
+import static com.xhl.statusbarcompatutil.StatusBarCompat.TAG_MARGIN_ADDED;
+import static com.xhl.statusbarcompatutil.StatusBarCompat.TAG_TRANSLATE_STATUS_BAR_VIEW;
+import static com.xhl.statusbarcompatutil.StatusBarCompat.getStatusBarHeight;
+import static com.xhl.statusbarcompatutil.StatusBarCompat.removeTranslucentViewIfExist;
+
+
 /**
  * After kitkat add fake status bar
  * Created by qiu on 8/27/16.
@@ -23,19 +29,31 @@ import android.widget.FrameLayout;
 @TargetApi(Build.VERSION_CODES.KITKAT)
 class StatusBarCompatKitKat {
 
-    private static final String TAG_FAKE_STATUS_BAR_VIEW = "statusBarView";
-    private static final String TAG_MARGIN_ADDED = "marginAdded";
-
     /**
-     * return statusBar's Height in pixels
+     * set StatusBarColor
+     *
+     * 1. set Window Flag : WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+     * 2. removeFakeStatusBarViewIfExist
+     * 3. addFakeStatusBarView
+     * 4. addMarginTopToContentChild
+     * 5. cancel ContentChild's fitsSystemWindow
      */
-    private static int getStatusBarHeight(Context context) {
-        int result = 0;
-        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resId > 0) {
-            result = context.getResources().getDimensionPixelOffset(resId);
+    static void setStatusBarColor(Activity activity, int statusColor) {
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //透明状态栏 全屏
+
+        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);//Activity内容区域FrameLayout
+        View mContentChild = mContentView.getChildAt(0);//Activity主布局xml
+        int statusBarHeight = getStatusBarHeight(activity);
+
+        removeFakeStatusBarViewIfExist(activity);//取消添加的自定义区域 防止2次添加
+//        removeTranslucentViewIfExist(activity);
+        addFakeStatusBarView(activity, statusColor, statusBarHeight);//添加填充的自定义View
+        addMarginTopToContentChild(mContentChild, statusBarHeight);//设置Activity xml最外层偏移状态栏高度
+
+        if (mContentChild != null) {
+            ViewCompat.setFitsSystemWindows(mContentChild, false);//防止最外层添加了fitSystemWindow
         }
-        return result;
     }
 
     /**
@@ -60,7 +78,7 @@ class StatusBarCompatKitKat {
     /**
      * use reserved order to remove is more quickly.
      */
-    private static void removeFakeStatusBarViewIfExist(Activity activity) {
+     static void removeFakeStatusBarViewIfExist(Activity activity) {
         Window window = activity.getWindow();
         ViewGroup mDecorView = (ViewGroup) window.getDecorView();
 
@@ -69,6 +87,7 @@ class StatusBarCompatKitKat {
             mDecorView.removeView(fakeView);
         }
     }
+
 
     /**
      * add marginTop to simulate set FitsSystemWindow true
@@ -80,7 +99,7 @@ class StatusBarCompatKitKat {
         if (!TAG_MARGIN_ADDED.equals(mContentChild.getTag())) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mContentChild.getLayoutParams();
             lp.topMargin += statusBarHeight;
-            mContentChild.setLayoutParams(lp);
+            mContentChild.setLayoutParams(lp);//Activity主布局xml最外层 偏移
             mContentChild.setTag(TAG_MARGIN_ADDED);
         }
     }
@@ -100,31 +119,6 @@ class StatusBarCompatKitKat {
         }
     }
 
-    /**
-     * set StatusBarColor
-     *
-     * 1. set Window Flag : WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-     * 2. removeFakeStatusBarViewIfExist
-     * 3. addFakeStatusBarView
-     * 4. addMarginTopToContentChild
-     * 5. cancel ContentChild's fitsSystemWindow
-     */
-    static void setStatusBarColor(Activity activity, int statusColor) {
-        Window window = activity.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS); //设置Window为全透明
-
-        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
-        View mContentChild = mContentView.getChildAt(0);
-        int statusBarHeight = getStatusBarHeight(activity);
-
-        removeFakeStatusBarViewIfExist(activity);
-        addFakeStatusBarView(activity, statusColor, statusBarHeight);
-        addMarginTopToContentChild(mContentChild, statusBarHeight);
-
-        if (mContentChild != null) {
-            ViewCompat.setFitsSystemWindows(mContentChild, false);
-        }
-    }
 
     /**
      * translucentStatusBar
@@ -133,6 +127,7 @@ class StatusBarCompatKitKat {
      * 2. removeFakeStatusBarViewIfExist
      * 3. removeMarginTopOfContentChild
      * 4. cancel ContentChild's fitsSystemWindow
+     * 内容会沉浸到状态栏
      */
     static void translucentStatusBar(Activity activity) {
         Window window = activity.getWindow();
@@ -142,6 +137,7 @@ class StatusBarCompatKitKat {
         View mContentChild = mContentView.getChildAt(0);
 
         removeFakeStatusBarViewIfExist(activity);
+        removeTranslucentViewIfExist(activity);
         removeMarginTopOfContentChild(mContentChild, getStatusBarHeight(activity));
         if (mContentChild != null) {
             ViewCompat.setFitsSystemWindows(mContentChild, false);
@@ -183,6 +179,7 @@ class StatusBarCompatKitKat {
 
         int statusBarHeight = getStatusBarHeight(activity);
         removeFakeStatusBarViewIfExist(activity);
+        removeTranslucentViewIfExist(activity);
         removeMarginTopOfContentChild(mContentChild, statusBarHeight);
         final View statusView = addFakeStatusBarView(activity, statusColor, statusBarHeight);
 
