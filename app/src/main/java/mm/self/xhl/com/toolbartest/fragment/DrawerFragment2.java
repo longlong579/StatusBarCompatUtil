@@ -19,16 +19,16 @@ import mm.self.xhl.com.toolbartest.R;
  * Test for DrawerLayout and CoordinatorLayout
  * 抽屉高度全屏 内容用StatusView占位 布局设置fitSystemWindow
  */
-public class DrawerFragment extends Fragment {
+public class DrawerFragment2 extends Fragment {
 
-    public DrawerFragment() {
+    public DrawerFragment2() {
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_drawer, container, false);
+        return inflater.inflate(R.layout.fragment_drawer_t, container, false);
     }
 
     DrawerLayout drawer;
@@ -36,16 +36,20 @@ public class DrawerFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        ViewGroup contentView = (ViewGroup) getActivity().findViewById(android.R.id.content);
         ((AppCompatActivity) getActivity()).setSupportActionBar((Toolbar) view.findViewById(R.id.toolbar));
         drawer=view.findViewById(R.id.drawer);
+
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // StatusBarCompat.translucentStatusBar(getActivity(), false);//全屏透明 注意设置布局的fitSystemWindow 和添加StatusView
-        StatusBarCompat.setColorForDrawerLayout(getActivity(),drawer, getResources().getColor(R.color.colorAccent), 123);
+         StatusBarCompat.translucentStatusBar(getActivity(), false);//全屏透明 注意设置布局的fitSystemWindow 和添加StatusView
+        //StatusBarCompat.setColorForDrawerLayout(getActivity(),drawer, getResources().getColor(R.color.colorAccent), 123);
     }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);

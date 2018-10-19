@@ -2,13 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-   >
+        android:layout_height="match_parent">
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -19,11 +20,9 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
                 android:background="@color/colorPrimaryDark"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="drawer in left" />
-
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -129,9 +128,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorBackground"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:insetForeground="#00000000"
-        android:fitsSystemWindows="true"
         app:menu="@menu/drawer_view" />
 
 </android.support.v4.widget.DrawerLayout>

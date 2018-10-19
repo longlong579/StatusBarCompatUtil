@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
 
 
         txt.setOnClickListener {
-
             StatusBarCompat.clearOffsetMarginView(this,toorBar)//如果用了setTranslucentForImageView，在同一界面中切换不同状态时勿忘还原margain
             StatusBarCompat.translucentStatusBar(this,true)
             StatusBarCompat.setStatusBarDarkFont(this,true)//黑色字体  注意放后面

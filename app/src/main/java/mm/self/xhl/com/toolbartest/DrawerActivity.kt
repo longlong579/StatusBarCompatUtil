@@ -2,6 +2,8 @@ package mm.self.xhl.com.toolbartest
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
 
 /**
  * @author xhl
