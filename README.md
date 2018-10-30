@@ -29,7 +29,7 @@ allprojects {
   ```groovy
   dependencies 
   {
-    implementation ('com.github.longlong579:StatusBarCompatUtil:v1.0.0', { exclude group: 'com.android.support' })
+    implementation ('com.github.longlong579:StatusBarCompatUtil:v1.1.0', { exclude group: 'com.android.support' })
 	}
 	```
   
