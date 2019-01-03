@@ -73,6 +73,12 @@ public class StatusBarCompat {
         }
     }
 
+    public static void clearOffsetView(Activity activity,View needOffsetView)
+    {
+        clearOffsetMarginView(activity,needOffsetView);
+        clearOffsetPaddingView(activity,needOffsetView);
+    }
+
     ////设置控件取消偏移状态栏高度Margin
     public static void clearOffsetMarginView(Activity activity,View needOffsetView)
     {
