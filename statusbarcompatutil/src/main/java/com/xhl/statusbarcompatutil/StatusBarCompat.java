@@ -98,7 +98,7 @@ public class StatusBarCompat {
                 return;
             }
             needOffsetView.setPadding(needOffsetView.getPaddingLeft(), needOffsetView.getPaddingTop()+getStatusBarHeight(activity) ,
-                    needOffsetView.getPaddingRight(), needOffsetView.getPaddingBottom());
+                    needOffsetView.getPaddingRight(), needOffsetView.getPaddingBottom()+getStatusBarHeight(activity));
             needOffsetView.setTag(TAG_KEY_HAVE_SET_OFFSET_PADDING, true);
             needOffsetView.requestLayout();
         }
