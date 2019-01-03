@@ -97,9 +97,20 @@ public class StatusBarCompat {
             if (haveSetOffset != null && (Boolean) haveSetOffset) {
                 return;
             }
+            int w = View.MeasureSpec.makeMeasureSpec(0,
+                    View.MeasureSpec.UNSPECIFIED);
+            int h = View.MeasureSpec.makeMeasureSpec(0,
+                    View.MeasureSpec.UNSPECIFIED);
+            needOffsetView.measure(w, h);
+            int height = needOffsetView.getMeasuredHeight();
+
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) needOffsetView.getLayoutParams();
+            layoutParams.height=height+getStatusBarHeight(activity);
+            //needOffsetView.setLayoutParams(layoutParams);
             needOffsetView.setPadding(needOffsetView.getPaddingLeft(), needOffsetView.getPaddingTop()+getStatusBarHeight(activity) ,
-                    needOffsetView.getPaddingRight(), needOffsetView.getPaddingBottom()+getStatusBarHeight(activity));
+                    needOffsetView.getPaddingRight(), needOffsetView.getPaddingBottom());
             needOffsetView.setTag(TAG_KEY_HAVE_SET_OFFSET_PADDING, true);
+
             needOffsetView.requestLayout();
         }
     }
@@ -113,6 +124,18 @@ public class StatusBarCompat {
                 needOffsetView.setPadding(needOffsetView.getPaddingLeft(), needOffsetView.getPaddingTop()-getStatusBarHeight(activity) ,
                         needOffsetView.getPaddingRight(), needOffsetView.getPaddingBottom());
                 needOffsetView.setTag(TAG_KEY_HAVE_SET_OFFSET_PADDING, false);
+
+                int w = View.MeasureSpec.makeMeasureSpec(0,
+                        View.MeasureSpec.UNSPECIFIED);
+                int h = View.MeasureSpec.makeMeasureSpec(0,
+                        View.MeasureSpec.UNSPECIFIED);
+                needOffsetView.measure(w, h);
+                int height = needOffsetView.getMeasuredHeight();
+
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) needOffsetView.getLayoutParams();
+                layoutParams.height=height;
+
+                //needOffsetView.setLayoutParams(layoutParams);
                 needOffsetView.requestLayout();
             }
           

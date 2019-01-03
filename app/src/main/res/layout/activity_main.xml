@@ -19,7 +19,7 @@
         android:id="@+id/toorBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@color/colorPrimary"
         app:navigationIcon="@mipmap/ic_arrow_back"
         android:gravity="center"
         android:minHeight="?attr/actionBarSize"

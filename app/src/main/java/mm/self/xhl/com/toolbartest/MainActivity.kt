@@ -19,17 +19,23 @@ class MainActivity : AppCompatActivity() {
 
 
         txt.setOnClickListener {
+            StatusBarCompat.clearOffsetPaddingView(this,toorBar)
             StatusBarCompat.clearOffsetMarginView(this,toorBar)//如果用了setTranslucentForImageView，在同一界面中切换不同状态时勿忘还原margain
             StatusBarCompat.translucentStatusBar(this,true)
             StatusBarCompat.setStatusBarDarkFont(this,true)//黑色字体  注意放后面
         }
         txt2.setOnClickListener {
             StatusBarCompat.setStatusBarColor(this,resources.getColor(R.color.colorAccent))
+            StatusBarCompat.clearOffsetPaddingView(this,toorBar)
             StatusBarCompat.clearOffsetMarginView(this,toorBar)
             StatusBarCompat.setStatusBarDarkFont(this,false)//白色字体
         }
         txt3.setOnClickListener {
-            StatusBarCompat.setTranslucentForImageView(this,true,0,toorBar)
+            StatusBarCompat.clearOffsetMarginView(this,toorBar)
+            StatusBarCompat.clearOffsetPaddingView(this,toorBar)
+            StatusBarCompat.setOffsetPaddingView(this,toorBar)
+            StatusBarCompat.translucentStatusBar(this)
+            //StatusBarCompat.setTranslucentForImageView(this,true,0,toorBar)
             StatusBarCompat.setStatusBarDarkFont(this,true)//黑色字体
         }
 
