@@ -1,10 +1,8 @@
 package mm.self.xhl.com.toolbartest
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.WindowManager
 import com.xhl.statusbarcompatutil.StatusBarCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import mm.self.xhl.com.toolbartest.fragment.FragmentActivity
